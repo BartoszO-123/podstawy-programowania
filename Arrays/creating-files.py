@@ -1,4 +1,4 @@
-for i in range(57, 58):
+for i in range(1, 54):
     filename = f"{i}.py"
 
     with open(filename, "w") as f:
