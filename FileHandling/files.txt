@@ -1,0 +1,5 @@
+obrazek.jpg
+strona.html
+dokument.docx
+skrypt.py
+prezentacja.pptx

@@ -1,0 +1,5 @@
+2. Germany, Berlin, 83240000
+1. Poland, Warsaw, 38265000
+5. Canada, Ottawa, 38250000
+4. Japan, Tokyo, 125800000
+3. France, Paris, 67850000
