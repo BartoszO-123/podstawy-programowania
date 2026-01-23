@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VADEMECUM: Architektura Systemów Komputerowych</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: var(--dark);
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #fff;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--light);
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        h2 { border-left: 5px solid var(--secondary); padding-left: 10px; color: var(--primary); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th { background-color: var(--light); }
+
+        /* Flashcard Styles */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 200px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 1.2rem;
+            border-radius: 10px;
+        }
+
+        .flashcard-front { background: var(--secondary); color: white; }
+        .flashcard-back { background: #fff; color: var(--dark); transform: rotateY(180deg); border: 2px solid var(--secondary); }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .quiz-option {
+            display: block;
+            background: var(--light);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .quiz-option:hover { background: #d5dbdb; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>VADEMECUM ASK</h1>
+    <p>Jan Madej: Architektura Systemów Komputerowych [cite: 1]</p>
+</header>
+
+<nav>
+    <a onclick="showSection('knowledge')">Baza Wiedzy</a>
+    <a onclick="showSection('flashcards')">Fiszki</a>
+    <a onclick="showSection('quiz')">Generator Egzaminu</a>
+</nav>
+
+<div class="container">
+    
+    <section id="knowledge" class="section">
+        <div class="card">
+            <h2>💾 Przechowywanie Danych</h2>
+            <p><strong>Pojemności Sektora:</strong> Standardowy sektor dysku ma 512 Bajtów[cite: 63, 1077].</p>
+            <p><strong>Płyty CD:</strong> Standardowe pojemności to 650MB (74min), 700MB (80min), 800MB (90min) oraz 870MB (99min)[cite: 149, 883].</p>
+            <p><strong>Płyty DVD:</strong> DVD-5 (jedna warstwa) mieści 4,7 GB[cite: 858, 912]. DVD-18 (dwie strony, dwie warstwy) mieści 15,9 GB[cite: 668].</p>
+            
+            <table>
+                <thead>
+                    <tr><th>Interfejs</th><th>Prędkość Transferu</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SATA I</td><td>150 MB/s [cite: 20, 909]</td></tr>
+                    <tr><td>SATA II</td><td>300 MB/s [cite: 20]</td></tr>
+                    <tr><td>SATA III</td><td>600 MB/s [cite: 20]</td></tr>
+                    <tr><td>USB 2.0</td><td>480 Mbit/s [cite: 72]</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ Monitor i Obraz</h2>
+            <p><strong>Mora:</strong> Występuje w monitorach typu Delta (maska perforowana)[cite: 8, 951].</p>
+            <p><strong>Przeplot (Interlace):</strong> Technika podwojenia linii poziomych przez oddzielne wyświetlanie linii parzystych i nieparzystych[cite: 23, 827].</p>
+            <p><strong>CMYK (Mieszanie):</strong> C+M = Blue, C+Y = Green, M+Y = Red, C+M+Y = Black (K)[cite: 154, 155, 876].</p>
+            <p><strong>RGB (Mieszanie):</strong> Red + Green = Yellow, Red + Blue = Magenta, Blue + Green = Cyan[cite: 158, 872].</p>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ Assembler i Rejestry</h2>
+            <p><strong>Segment:</strong> Zaczyna się na granicy paragrafu (co 16 bajtów)[cite: 39, 945].</p>
+            <p><strong>Słowo (Word):</strong> 2 Bajty (16 bitów)[cite: 112, 852].</p>
+            <p><strong>Podwójne Słowo:</strong> 4 Bajty (32 bity)[cite: 871, 963].</p>
+            <p><strong>Adres Fizyczny:</strong> Obliczany wzorem: (adres segmentu × 10h) + offset[cite: 164, 846, 947].</p>
+        </div>
+    </section>
+
+    <section id="flashcards" class="section hidden">
+        <div class="card" style="text-align: center;">
+            <h2>Fiszki Interaktywne</h2>
+            <p>Kliknij kartę, aby zobaczyć odpowiedź.</p>
+            <div class="flashcard-container" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front" id="card-front">Kliknij "Następna", aby zacząć.</div>
+                    <div class="flashcard-back" id="card-back">...</div>
+                </div>
+            </div>
+            <button class="btn" onclick="nextCard()">Następna Fiszka</button>
+        </div>
+    </section>
+
+    <section id="quiz" class="section hidden">
+        <div class="card">
+            <h2>Generator Egzaminu</h2>
+            <div id="quiz-content">
+                <p id="question-text">Kliknij przycisk poniżej, aby wygenerować pytanie egzaminacyjne.</p>
+                <div id="options-container"></div>
+                <button class="btn" onclick="generateQuestion()">Nowe Pytanie</button>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const flashcardsData = [
+        { q: "Do czego służy debugger 'd'?", a: "Przeglądanie zawartości pamięci w postaci danych[cite: 3]." },
+        { q: "El Torito - rok i firmy?", a: "1995 r., IBM i Phoenix Technologies[cite: 18, 662]." },
+        { q: "Co to jest Paragraf?", a: "16 kolejnych bajtów[cite: 39, 1113]." },
+        { q: "Ile razy TB jest większy od MB?", a: "Milion razy (10^6)[cite: 45, 227]." },
+        { q: "Co robi rozkaz 'XOR AX, AX'?", a: "Wyzerowuje rejestr AX[cite: 171, 908]." },
+        { q: "F7 w Norton Commander?", a: "Nowy Katalog[cite: 10, 389]." },
+        { q: "Jaki kolor lasera ma DVD?", a: "Podczerwony (780nm to CD, DVD ma krótszą fali, ale źródło podaje podczerwony)[cite: 90, 860]." },
+        { q: "Czym jest jednostka DPI?", a: "Dots Per Inch - rozdzielczość druku[cite: 118, 839]." }
+    ];
+
+    const quizData = [
+        { q: "Ile bajtów ma sektor?", options: ["256 B", "512 B", "1024 B"], correct: 1 },
+        { q: "Która firma opracowała DVD-R?", options: ["Sony", "Philips", "Pioneer"], correct: 2 },
+        { q: "Co w asemblerze oznacza ZF=1?", options: ["Wynik operacji wynosi 0", "Nastąpił nadmiar", "Wynik jest ujemny"], correct: 0 },
+        { q: "Jaki skrót w NC służy do edycji pliku?", options: ["F3", "F4", "F5"], correct: 1 },
+        { q: "Jaki jest transfer SATA III?", options: ["150 MB/s", "300 MB/s", "600 MB/s"], correct: 2 }
+    ];
+
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function nextCard() {
+        const card = flashcardsData[Math.floor(Math.random() * flashcardsData.length)];
+        document.getElementById('card-front').innerText = card.q;
+        document.getElementById('card-back').innerText = card.a;
+        document.querySelector('.flashcard-container').classList.remove('flipped');
+    }
+
+    function generateQuestion() {
+        const qObj = quizData[Math.floor(Math.random() * quizData.length)];
+        const container = document.getElementById('options-container');
+        document.getElementById('question-text').innerText = qObj.q;
+        container.innerHTML = '';
+        
+        qObj.options.forEach((opt, index) => {
+            const div = document.createElement('div');
+            div.className = 'quiz-option';
+            div.innerText = opt;
+            div.onclick = () => {
+                if(index === qObj.correct) {
+                    div.style.background = '#2ecc71';
+                    div.innerText += " ✅ (Poprawna!)";
+                } else {
+                    div.style.background = '#e74c3c';
+                    div.innerText += " ❌";
+                }
+            };
+            container.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
